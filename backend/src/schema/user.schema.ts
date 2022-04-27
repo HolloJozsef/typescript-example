@@ -1,4 +1,5 @@
-import { object, string, TypeOf } from "zod";
+import { any, object, string, TypeOf } from "zod";
+import PinModel from "../models/pin.model";
 
 export const createUserSchema=object({
     body:object({
@@ -13,7 +14,8 @@ export const createUserSchema=object({
         }),
         email:string({
             required_error:'Email is required'
-        }).email('Not a valid email')
+        }).email('Not a valid email'),
+        pins:any()
     }).refine((data)=>data.password===data.passwordConfirmation,{
         message:"Passwords do not match"
     })

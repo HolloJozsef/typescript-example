@@ -1,11 +1,20 @@
 import mongoose from "mongoose";
+import {Schema} from "mongoose"
+import { UserDocument } from "./user.model";
+
+export interface PinDocument extends mongoose.Document{
+  title:string;
+  desc:string;
+  rating:number;
+  long:number;
+  lat:number;
+  owner:UserDocument;
+  createdAt:Date;
+  updatedAt:Date;
+}
 
 const pinSchema = new mongoose.Schema(
     {
-      username: {
-        type: String,
-        required: true,
-      },
       title: {
         type: String,
         required: true,
@@ -31,6 +40,10 @@ const pinSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
+      owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+      }
     },
     { timestamps: true }
   );
