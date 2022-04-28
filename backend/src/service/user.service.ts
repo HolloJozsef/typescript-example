@@ -23,7 +23,8 @@ export async function LoginUser(input:DocumentDefinition<Omit<UserDocument,'crea
             throw new Error("Email or password invalid")
         const accessToken=await JWT.sign({email},config.get<string>('ACCESS_TOKEN_SECRET'))
         console.log(accessToken)
-        return accessToken;
+        const userId=user._id;
+        return {accessToken,userId};
     }catch(e:any){
         throw new Error(e);
     }

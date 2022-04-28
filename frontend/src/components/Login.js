@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect,useContext } from 'react'
 import authService from '../services/auth.service'
 import {useNavigate} from "react-router-dom"
+import { UserContext } from './UserContext';
 
 const Login = () => {
     const userRef=useRef(null)
@@ -10,6 +11,7 @@ const Login = () => {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [errorMessage, setErrorMessage]=useState('')
+    const {user,setUser} = useContext(UserContext)
 
     useEffect(()=>{
         userRef.current.focus()
@@ -23,6 +25,7 @@ const Login = () => {
         e.preventDefault()
        try{
             let response=await authService.login(email,password)
+            setUser(localStorage.getItem('user'))
             navigate("/home")            
             console.log(response)
        }catch(error){

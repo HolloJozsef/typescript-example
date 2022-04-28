@@ -35,3 +35,12 @@ export async function getPinsByUser(input:any){
     }
     throw {"message":"Could not find user","status":404}
 }
+
+export async function getPinsByUserEmail(input:any){
+    console.log(input)
+    const user=await UserModel.findOne({email:input})
+    if(user){
+       return user.pins
+    }
+    throw {"message":"Could not find user","status":404}
+}

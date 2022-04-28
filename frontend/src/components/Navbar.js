@@ -1,4 +1,4 @@
-import React from 'react';
+import {React,useContext} from 'react'
 import {
   Nav,
   NavLink,
@@ -7,8 +7,15 @@ import {
   NavBtn,
   NavBtnLink
 } from './NavbarElements';
+import authService from '../services/auth.service'
+import { UserContext } from './UserContext';
 
 const Navbar = () => {
+  const {user,setUser} = useContext(UserContext)
+  const handleLogout=()=>{
+    authService.logout()
+    setUser(null)
+  }
   return (
     <header>
       <Nav>
@@ -20,20 +27,15 @@ const Navbar = () => {
           <NavLink to='/about' activeStyle>
             About
           </NavLink>
-          <NavLink to='/services' activeStyle>
-            Services
-          </NavLink>
+          {user?(<NavLink to='/bucket-list' activeStyle>
+            Bucket List
+          </NavLink>):null}
           <NavLink to='/contact-us' activeStyle>
-            Contact Us
+          Contact
           </NavLink>
-          <NavLink to='/Register' activeStyle>
-            Sign Up
-          </NavLink>
-          {/* Second Nav */}
-          {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to='/login'>Sign In</NavBtnLink>
+            {user?( <NavBtnLink to='/logout' onClick={handleLogout}>Logout</NavBtnLink>):(<NavBtnLink to='/login'>Sign In</NavBtnLink>)}
         </NavBtn>
       </Nav>
     </header>
